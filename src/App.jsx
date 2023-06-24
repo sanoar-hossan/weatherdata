@@ -11,6 +11,7 @@ const App = () => {
 
     if (searchTerm) {
       setLoading(true);
+      console.log(loading);
 
       try {
         const response = await axios.get(
@@ -39,6 +40,8 @@ const App = () => {
       >
         Search Location
       </button>
+
+      {weather?.current ? weather.current.condition.text : "Your city name is not correct"}
     </div>
   );
 };
