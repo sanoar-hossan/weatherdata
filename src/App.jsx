@@ -18,6 +18,7 @@ const App = () => {
           `https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_API_KEY}&q=${searchTerm}`
         );
         setWeather(response.data);
+        console.log(weather);
       } catch (error) {
         console.error("Error fetching weather data:", error);
       }
@@ -33,7 +34,8 @@ const App = () => {
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div >
+      <div className="flex items-center justify-between">
       <input
         type="text"
         ref={inputRef}
@@ -47,8 +49,21 @@ const App = () => {
       >
         Search Location
       </button>
+    </div>
+<div>
 
-      {weather?.current ? weather.current.condition.text : "Your city name is not correct"}
+<div className="card card-side bg-base-100 shadow-xl">
+  <figure><img src={weather?.current.condition.icon} alt="Movie"/></figure>
+  <div className="card-body">
+    <h2 className="card-title">{weather ? weather.current.condition.text : "Your city name is not correct"}</h2>
+    <p>Now Temperature {weather&& weather.current.temp_c} <sup>°</sup> C</p>
+    <p>Now Temperature {weather&& weather.current.humidity} <sup>°</sup> C</p>
+    <div className="card-actions justify-end">
+      <button className="btn btn-primary">Watch</button>
+    </div>
+  </div>
+</div>
+</div>
     </div>
   );
 };
