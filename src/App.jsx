@@ -26,6 +26,12 @@ const App = () => {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      fetchWeather();
+    }
+  };
+
   return (
     <div className="flex items-center justify-between">
       <input
@@ -33,6 +39,7 @@ const App = () => {
         ref={inputRef}
         placeholder="Enter Your Location"
         className="text-xl border-b p-1 border-gray-200 font-semibold uppercase flex-1"
+        onKeyDown={handleKeyDown}
       />
       <button
         onClick={fetchWeather}
