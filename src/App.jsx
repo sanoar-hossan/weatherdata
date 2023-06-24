@@ -34,36 +34,79 @@ const App = () => {
   };
 
   return (
-    <div >
-      <div className="flex items-center justify-between">
-      <input
-        type="text"
-        ref={inputRef}
-        placeholder="Enter Your Location"
-        className="text-xl border-b p-1 border-gray-200 font-semibold uppercase flex-1"
-        onKeyDown={handleKeyDown}
-      />
-      <button
-        onClick={fetchWeather}
-        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
-      >
-        Search Location
-      </button>
-    </div>
-<div>
+    <div className="max-w-xl mx-auto py-8">
+      <div className="flex items-center justify-between my-2">
+        <input
+          type="text"
+          ref={inputRef}
+          placeholder="Enter Your Location"
+          className="text-xl border-b p-1 border-black  font-semibold uppercase flex-1"
+          onKeyDown={handleKeyDown}
+        />
+        <button
+          onClick={fetchWeather}
+          className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
+        >
+          Search Location
+        </button>
+      </div>
 
-<div className="card card-side bg-base-100 shadow-xl">
-  <figure><img src={weather?.current.condition.icon} alt="Movie"/></figure>
-  <div className="card-body">
-    <h2 className="card-title">{weather ? weather.current.condition.text : "Your city name is not correct"}</h2>
-    <p>Now Temperature {weather&& weather.current.temp_c} <sup>°</sup> C</p>
-    <p>Now Temperature {weather&& weather.current.humidity} <sup>°</sup> C</p>
-    <div className="card-actions justify-end">
-      <button className="btn btn-primary">Watch</button>
-    </div>
-  </div>
-</div>
-</div>
+      {weather && (
+        <div className="card card-side bg-base-100 shadow-xl py-10">
+          <figure>
+            <img src={weather.current.condition.icon} alt="Temp Icon" />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">
+              {weather.current.condition.text}
+            </h2>
+            <p>
+              Now Temperature {weather.current.temp_c}
+              <sup>°</sup> C
+            </p>
+            <p>
+              Feels Like {weather.current.feelslike_c}
+              <sup>°</sup> C
+            </p>
+            <p>Humidity {weather.current.humidity}</p>
+            <p>Wind Speed {weather.current.vis_km} km/h</p>
+            <p>City: {weather.location.name}</p>
+            <p>Date: {weather.forecast.forecastday[0].date}</p>
+            <div className="card-actions">
+              Country: {weather.location.country}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {weather && (
+        <div>
+          <h1>Last Few Days Temperature For {weather.location.name}</h1>
+          <div className="overflow-x-auto">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Sunrise Time</th>
+                  <th>Sunset Time</th>
+                  <th>Max temp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {weather.forecast.forecastday.map((day) => (
+                  <tr key={day.date}>
+                    <th>{day.date}</th>
+                    <th>{day.astro.sunrise}</th>
+                    <th>{day.astro.sunset}</th>
+                    <th>{day.day.maxtemp_c} degree</th>
+                    {/* Add other columns here */}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
